@@ -1,0 +1,164 @@
+/*
+ * MINIMAL STRUCTURAL CSS
+ *
+ * This file contains only basic structural styles.
+ * No colors, fancy effects, or decorative styling.
+ * Just clean, simple structure.
+ */
+
+/* ============================================
+ * APP LAYOUT
+ * ============================================ */
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.app-header {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.app-nav {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.app-nav button {
+  margin: 5px;
+  padding: 10px 15px;
+}
+
+/* Active navigation button */
+.app-nav button.active {
+  font-weight: bold;
+}
+
+.app-main {
+  padding: 20px;
+}
+
+.app-footer {
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  margin-top: 40px;
+}
+
+/* ============================================
+ * EXAMPLE CONTAINERS
+ * ============================================ */
+
+.example-container {
+  padding: 20px;
+}
+
+.example-box {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+/* ============================================
+ * INFO AND HINT BOXES
+ * ============================================ */
+
+.info-box {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.summary-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.log-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.result-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.post-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.hint {
+  font-size: 0.9em;
+  opacity: 0.7;
+}
+
+/* ============================================
+ * FORM ELEMENTS
+ * ============================================ */
+
+input {
+  padding: 5px;
+  margin: 5px;
+}
+
+button {
+  padding: 8px 12px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+label {
+  margin-right: 5px;
+}
+
+/* ============================================
+ * UTILITY CLASSES
+ * ============================================ */
+
+.error {
+  color: red;
+}
+
+/* ============================================
+ * SECTIONS
+ * ============================================ */
+
+section {
+  margin: 20px 0;
+}
+
+/* ============================================
+ * TYPOGRAPHY
+ * ============================================ */
+
+h2 {
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-bottom: 10px;
+}
+
+h4 {
+  margin-bottom: 10px;
+}
+
+pre {
+  padding: 10px;
+  border: 1px solid #ccc;
+  overflow-x: auto;
+}
+
+code {
+  padding: 2px 4px;
+  border: 1px solid #ccc;
+}
