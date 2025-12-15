@@ -1,41 +1,94 @@
-/**
- * REACT LEARNING EXAMPLES
- *
- * This app demonstrates core React concepts with simple examples.
- * Navigate through different examples using the buttons below.
- */
-
 import { useState } from 'react';
-// import Example1_Props from './examples/Example1_Props';
-// import Example2_State from './examples/Example2_State';
-// import Example3_UseEffect from './examples/Example3_UseEffect';
-// import Example4_CustomHooks from './examples/Example4_CustomHooks';
-// import Example5_API from './examples/Example5_API';
+import VectorDemo from './components/VectorDemo';
+import TextDemo from './components/TextDemo';
+import ImageDemo from './components/ImageDemo';
+import MatrixDisplay from './components/MatrixDisplay';
 import './App.css';
 
-// Type definition: This defines what values currentExample can have
-// Example type is either 'props', 'state', 'useEffect', 'customHooks', 'api'
-// type ExampleType = 'props' | 'state' | 'useEffect' | 'customHooks' | 'api';
+type Tab = 'vector' | 'text' | 'image' | 'matrices';
 
 function App() {
-  // State hook: Keeps track of which example is currently being displayed
-  // const [currentExample, setCurrentExample] = useState<ExampleType>('props');
-
-  // Object mapping: Maps each example type to its component and title
-  // const examples = {
-  //   props: { component: Example1_Props, title: '1. Props' },
-  //   state: { component: Example2_State, title: '2. State (useState)' },
-  //   useEffect: { component: Example3_UseEffect, title: '3. useEffect Hook' },
-  //   customHooks: { component: Example4_CustomHooks, title: '4. Custom Hooks' },
-  //   api: { component: Example5_API, title: '5. API Calls' },
-  // };
-
-  // Dynamic component: Get the component to render based on currentExample
-  // const CurrentComponent = examples[currentExample].component;
+  const [activeTab, setActiveTab] = useState<Tab>('vector');
 
   return (
-    <div>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
+      <h1>Golay (23,12,7) Error-Correcting Code</h1>
+      <p>
+        A perfect binary code that encodes 12 bits into 23 bits and can correct up to 3 bit errors.
+      </p>
 
+      {/* Tab Navigation */}
+      <nav style={{ marginBottom: '20px', borderBottom: '2px solid #ccc', paddingBottom: '10px' }}>
+        <button
+          onClick={() => setActiveTab('vector')}
+          style={{
+            padding: '10px 20px',
+            marginRight: '5px',
+            background: activeTab === 'vector' ? '#4a4' : '#ddd',
+            color: activeTab === 'vector' ? 'white' : 'black',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          Vector Demo
+        </button>
+        <button
+          onClick={() => setActiveTab('text')}
+          style={{
+            padding: '10px 20px',
+            marginRight: '5px',
+            background: activeTab === 'text' ? '#4a4' : '#ddd',
+            color: activeTab === 'text' ? 'white' : 'black',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          Text Demo
+        </button>
+        <button
+          onClick={() => setActiveTab('image')}
+          style={{
+            padding: '10px 20px',
+            marginRight: '5px',
+            background: activeTab === 'image' ? '#4a4' : '#ddd',
+            color: activeTab === 'image' ? 'white' : 'black',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          Image Demo
+        </button>
+        <button
+          onClick={() => setActiveTab('matrices')}
+          style={{
+            padding: '10px 20px',
+            background: activeTab === 'matrices' ? '#4a4' : '#ddd',
+            color: activeTab === 'matrices' ? 'white' : 'black',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+        >
+          Matrices
+        </button>
+      </nav>
+
+      {/* Tab Content */}
+      <main>
+        {activeTab === 'vector' && <VectorDemo />}
+        {activeTab === 'text' && <TextDemo />}
+        {activeTab === 'image' && <ImageDemo />}
+        {activeTab === 'matrices' && <MatrixDisplay />}
+      </main>
+
+      {/* Footer */}
+      <footer style={{ marginTop: '40px', borderTop: '1px solid #ccc', paddingTop: '10px', fontSize: '0.9em', color: '#666' }}>
+        <p>
+          Backend API: <a href="http://localhost:5081" target="_blank" rel="noopener noreferrer">http://localhost:5081</a>
+        </p>
+        <p>
+          References: literatura12.pdf (Algorithm 3.6.1 and 3.7.1)
+        </p>
+      </footer>
     </div>
   );
 }
