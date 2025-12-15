@@ -42,25 +42,6 @@ namespace server.Services
     public class GolayService
     {
         private readonly GolayMatrices _matrices;
-
-        // ═══════════════════════════════════════════════════════════════════════
-        // CRITICAL FIX: Static Random generator (initialized once at startup)
-        // ═══════════════════════════════════════════════════════════════════════
-        //
-        // From Tasks.md warning:
-        // "Atsitiktinių skaičių generatorių inicializuokite ne siuntimo kanalu
-        //  funkcijoje, t. y. neinicializuokite kiekvienam siunčiamam vektoriui
-        //  iš naujo, o inicializuokite tik vieną kartą"
-        //
-        // Translation: Initialize the random number generator NOT in the channel
-        // sending function. Don't reinitialize for each vector - initialize only
-        // once when the program starts.
-        //
-        // Why? Because Random() initializes based on system time, and if vectors
-        // are sent quickly, multiple vectors will get the same random sequence,
-        // causing errors to appear in "stripes" rather than independently.
-        // This breaks the symmetric channel property!
-        // ═══════════════════════════════════════════════════════════════════════
         private static readonly Random _random = new Random();
 
         public GolayService(GolayMatrices matrices)
@@ -204,30 +185,30 @@ namespace server.Services
         /// Decodes a 23-bit Golay codeword with error correction.
         ///
         /// ┌─────────────────────────────────────────────────────────────────────┐
-        /// │ DECODING PROCESS (Algorithm 3.7.1 from literatura12.pdf)           │
+        /// │ DECODING PROCESS (Algorithm 3.7.1 from literatura12.pdf)            │
         /// │                                                                     │
-        /// │   Received word w (23 bits) - may contain up to 3 errors           │
+        /// │   Received word w (23 bits) - may contain up to 3 errors            │
         /// │           │                                                         │
         /// │           ▼                                                         │
-        /// │   ┌───────────────────┐                                            │
-        /// │   │ Step 1: Extend    │  Add parity bit to make 24-bit word        │
-        /// │   │ to C24 (w0 or w1) │  Choose the one with ODD weight            │
-        /// │   └─────────┬─────────┘                                            │
+        /// │   ┌───────────────────┐                                             │
+        /// │   │ Step 1: Extend    │  Add parity bit to make 24-bit word         │
+        /// │   │ to C24 (w0 or w1) │  Choose the one with ODD weight             │
+        /// │   └─────────┬─────────┘                                             │
         /// │             │                                                       │
         /// │             ▼                                                       │
-        /// │   ┌───────────────────┐                                            │
-        /// │   │ Step 2: Decode    │  Use Algorithm 3.6.1 (IMLD for C24)       │
-        /// │   │ using IMLD        │  Find error pattern u, compute c = w + u  │
-        /// │   └─────────┬─────────┘                                            │
+        /// │   ┌───────────────────┐                                             │
+        /// │   │ Step 2: Decode    │  Use Algorithm 3.6.1 (IMLD for C24)         │
+        /// │   │ using IMLD        │  Find error pattern u, compute c = w + u    │
+        /// │   └─────────┬─────────┘                                             │
         /// │             │                                                       │
         /// │             ▼                                                       │
-        /// │   ┌───────────────────┐                                            │
-        /// │   │ Step 3: Puncture  │  Remove last bit to get C23 codeword      │
-        /// │   │ back to C23       │  Extract message from first 12 bits        │
-        /// │   └─────────┬─────────┘                                            │
+        /// │   ┌───────────────────┐                                             │
+        /// │   │ Step 3: Puncture  │  Remove last bit to get C23 codeword        │
+        /// │   │ back to C23       │  Extract message from first 12 bits         │
+        /// │   └─────────┬─────────┘                                             │
         /// │             │                                                       │
         /// │             ▼                                                       │
-        /// │   Decoded message (12 bits) - original message recovered           │
+        /// │   Decoded message (12 bits) - original message recovered            │
         /// └─────────────────────────────────────────────────────────────────────┘
         ///
         /// WHY THIS WORKS:
@@ -409,20 +390,20 @@ namespace server.Services
         /// Simulates sending a codeword through a Binary Symmetric Channel (BSC).
         ///
         /// ┌─────────────────────────────────────────────────────────────────────┐
-        /// │ BINARY SYMMETRIC CHANNEL (BSC)                                     │
+        /// │ BINARY SYMMETRIC CHANNEL (BSC)                                      │
         /// │                                                                     │
-        /// │              ┌─────────────────┐                                   │
-        /// │              │                 │                                   │
-        /// │    0 ───────►│  1-p      p    │───────► 0                         │
-        /// │              │      ╲   ╱      │                                   │
-        /// │              │       ╲ ╱       │         p = error probability     │
-        /// │              │        ╳        │                                   │
-        /// │              │       ╱ ╲       │                                   │
-        /// │    1 ───────►│  p      1-p    │───────► 1                         │
-        /// │              │                 │                                   │
-        /// │              └─────────────────┘                                   │
+        /// │              ┌─────────────────┐                                    │
+        /// │              │                 │                                    │
+        /// │    0 ───────►│  1-p      p    │───────► 0                           │
+        /// │              │      ╲   ╱      │                                    │
+        /// │              │       ╲ ╱       │         p = error probability      │
+        /// │              │        ╳        │                                    │
+        /// │              │       ╱ ╲       │                                    │
+        /// │    1 ───────►│  p      1-p    │───────► 1                           │
+        /// │              │                 │                                    │
+        /// │              └─────────────────┘                                    │
         /// │                                                                     │
-        /// │  Each bit independently flips with probability p                   │
+        /// │  Each bit independently flips with probability p                    │
         /// └─────────────────────────────────────────────────────────────────────┘
         ///
         /// IMPLEMENTATION:
@@ -472,35 +453,35 @@ namespace server.Services
         /// IMLD = Iterative Majority Logic Decoding
         ///
         /// ┌─────────────────────────────────────────────────────────────────────┐
-        /// │ ALGORITHM 3.6.1 - IMLD FOR C24                                     │
+        /// │ ALGORITHM 3.6.1 - IMLD FOR C24                                      │
         /// │                                                                     │
-        /// │ Input: 24-bit word w (with odd weight)                             │
-        /// │ Output: Error pattern u = [u₁, u₂] where u₁, u₂ are 12-bit vectors │
+        /// │ Input: 24-bit word w (with odd weight)                              │
+        /// │ Output: Error pattern u = [u₁, u₂] where u₁, u₂ are 12-bit vectors  │
         /// │                                                                     │
-        /// │ The error pattern u tells us which bits were flipped during        │
-        /// │ transmission. The original codeword is: v = w ⊕ u                  │
+        /// │ The error pattern u tells us which bits were flipped during         │
+        /// │ transmission. The original codeword is: v = w ⊕ u                   │
         /// │                                                                     │
         /// │ STEPS:                                                              │
         /// │ ──────                                                              │
-        /// │ 1. Compute syndrome s₁ = wH = u₁ + u₂B                             │
+        /// │ 1. Compute syndrome s₁ = wH = u₁ + u₂B                              │
         /// │                                                                     │
-        /// │ 2. If wt(s₁) ≤ 3 then u = [s₁, 0]                                  │
-        /// │    (All errors are in first 12 bits)                               │
+        /// │ 2. If wt(s₁) ≤ 3 then u = [s₁, 0]                                   │
+        /// │    (All errors are in first 12 bits)                                │
         /// │                                                                     │
-        /// │ 3. If wt(s₁ + bᵢ) ≤ 2 for some row bᵢ of B                        │
-        /// │    then u = [s₁ + bᵢ, eᵢ]                                          │
-        /// │    (Errors in first 12 bits plus one error at position i+12)       │
+        /// │ 3. If wt(s₁ + bᵢ) ≤ 2 for some row bᵢ of B                          │
+        /// │    then u = [s₁ + bᵢ, eᵢ]                                           │
+        /// │    (Errors in first 12 bits plus one error at position i+12)        │
         /// │                                                                     │
-        /// │ 4. Compute second syndrome s₂ = s₁B                                │
+        /// │ 4. Compute second syndrome s₂ = s₁B                                 │
         /// │                                                                     │
-        /// │ 5. If wt(s₂) ≤ 3 then u = [0, s₂]                                  │
-        /// │    (All errors are in last 12 bits)                                │
+        /// │ 5. If wt(s₂) ≤ 3 then u = [0, s₂]                                   │
+        /// │    (All errors are in last 12 bits)                                 │
         /// │                                                                     │
-        /// │ 6. If wt(s₂ + bᵢ) ≤ 2 for some row bᵢ of B                        │
-        /// │    then u = [eᵢ, s₂ + bᵢ]                                          │
-        /// │    (One error at position i plus errors in last 12 bits)           │
+        /// │ 6. If wt(s₂ + bᵢ) ≤ 2 for some row bᵢ of B                          │
+        /// │    then u = [eᵢ, s₂ + bᵢ]                                           │
+        /// │    (One error at position i plus errors in last 12 bits)            │
         /// │                                                                     │
-        /// │ 7. If u not determined → request retransmission (>3 errors)        │
+        /// │ 7. If u not determined → request retransmission (>3 errors)         │
         /// └─────────────────────────────────────────────────────────────────────┘
         ///
         /// MATHEMATICAL BACKGROUND:
@@ -687,21 +668,21 @@ namespace server.Services
         /// Encodes a text string using Golay code.
         ///
         /// ┌─────────────────────────────────────────────────────────────────────┐
-        /// │ TEXT ENCODING PROCESS                                              │
+        /// │ TEXT ENCODING PROCESS                                               │
         /// │                                                                     │
-        /// │  "Hello" → UTF-8 bytes → bit stream → 12-bit chunks → encode each  │
+        /// │  "Hello" → UTF-8 bytes → bit stream → 12-bit chunks → encode each   │
         /// │                                                                     │
-        /// │  Character: 'H' 'e' 'l' 'l' 'o'                                    │
-        /// │  UTF-8:     72  101 108 108 111  (5 bytes = 40 bits)               │
+        /// │  Character: 'H' 'e' 'l' 'l' 'o'                                     │
+        /// │  UTF-8:     72  101 108 108 111  (5 bytes = 40 bits)                │
         /// │                                                                     │
-        /// │  Padding: Add zeros to make total bits divisible by 12             │
-        /// │  40 bits → 48 bits (add 8 zeros) → 4 message blocks                │
+        /// │  Padding: Add zeros to make total bits divisible by 12              │
+        /// │  40 bits → 48 bits (add 8 zeros) → 4 message blocks                 │
         /// │                                                                     │
-        /// │  Each 12-bit block → 23-bit codeword                               │
-        /// │  4 blocks × 23 bits = 92 bits total                                │
+        /// │  Each 12-bit block → 23-bit codeword                                │
+        /// │  4 blocks × 23 bits = 92 bits total                                 │
         /// │                                                                     │
-        /// │  NOTE: Padding count is stored as metadata (not sent through       │
-        /// │  the channel) to allow correct reconstruction during decoding.     │
+        /// │  NOTE: Padding count is stored as metadata (not sent through        │
+        /// │  the channel) to allow correct reconstruction during decoding.      │
         /// └─────────────────────────────────────────────────────────────────────┘
         /// </summary>
         public TextEncodeResult EncodeText(string text)
