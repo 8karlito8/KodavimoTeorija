@@ -248,21 +248,17 @@ namespace server.Services
             int[] w23 = IntToBitArray(codeword, 23);
             int weight23 = CalculateWeight(w23);
 
-            // Create 24-bit word by appending a bit
-            int[] w24;
+            // Algorithm 3.7.1: Form w0 or w1, whichever has odd weight
+            int[] w24 = new int[24];
+            Array.Copy(w23, w24, 23);
+
             if (weight23 % 2 == 0)
             {
-                // Even weight → append 1 to make odd weight
-                w24 = new int[24];
-                Array.Copy(w23, w24, 23);
-                w24[23] = 1;  // This makes total weight odd
+                w24[23] = 1;  // Append 1 to make odd weight
             }
             else
             {
-                // Odd weight → append 0 to keep odd weight
-                w24 = new int[24];
-                Array.Copy(w23, w24, 23);
-                w24[23] = 0;
+                w24[23] = 0;  // Append 0 to keep odd weight
             }
 
             // ─────────────────────────────────────────────────────────────────
@@ -311,19 +307,17 @@ namespace server.Services
             int[] w23 = IntToBitArray(codeword, 23);
             int weight23 = CalculateWeight(w23);
 
-            int[] w24;
+            int[] w24 = new int[24];
+            Array.Copy(w23, w24, 23);
+
             int appendedBit;
             if (weight23 % 2 == 0)
             {
-                w24 = new int[24];
-                Array.Copy(w23, w24, 23);
                 w24[23] = 1;
                 appendedBit = 1;
             }
             else
             {
-                w24 = new int[24];
-                Array.Copy(w23, w24, 23);
                 w24[23] = 0;
                 appendedBit = 0;
             }
@@ -523,10 +517,8 @@ namespace server.Services
             // STEP 2: If wt(s₁) ≤ 3 then u = [s₁, 0]
             // ─────────────────────────────────────────────────────────────────
             //
-            // If the syndrome has weight ≤ 3, all errors are in the first 12 bits.
-            // The error pattern is simply u = [s₁, 0...0]
-            //
-            // Why? Because s₁ = u₁ + u₂B. If u₂ = 0, then s₁ = u₁.
+            // If the syndrome has weight ≤ 3, TEST if error pattern [s₁, 0] is valid.
+            // We validate by checking if (w + u) produces syndrome = 0.
             // ─────────────────────────────────────────────────────────────────
             if (weightS1 <= 3)
             {
@@ -534,8 +526,14 @@ namespace server.Services
                 Array.Copy(s1, errorPattern, 12);  // u₁ = s₁
                 // u₂ = 0 (already initialized)
 
+                // Validate: check if this error pattern produces a valid codeword
                 int[] corrected = XorVectors(w24, errorPattern);
-                return (corrected, errorPattern, true);
+                int[] testSyndrome = ComputeSyndromeS1(corrected);
+                if (CalculateWeight(testSyndrome) == 0)
+                {
+                    return (corrected, errorPattern, true);
+                }
+                // Otherwise, continue to next step
             }
 
             // ─────────────────────────────────────────────────────────────────
@@ -557,8 +555,13 @@ namespace server.Services
                     Array.Copy(s1PlusBi, errorPattern, 12);  // u₁ = s₁ + bᵢ
                     errorPattern[12 + i] = 1;  // u₂ = eᵢ
 
+                    // Validate: check if this error pattern produces a valid codeword
                     int[] corrected = XorVectors(w24, errorPattern);
-                    return (corrected, errorPattern, true);
+                    int[] testSyndrome = ComputeSyndromeS1(corrected);
+                    if (CalculateWeight(testSyndrome) == 0)
+                    {
+                        return (corrected, errorPattern, true);
+                    }
                 }
             }
 
@@ -579,8 +582,7 @@ namespace server.Services
             // STEP 5: If wt(s₂) ≤ 3 then u = [0, s₂]
             // ─────────────────────────────────────────────────────────────────
             //
-            // If the second syndrome has weight ≤ 3, all errors are in the
-            // last 12 bits. The error pattern is u = [0...0, s₂]
+            // If the second syndrome has weight ≤ 3, TEST if error pattern [0, s₂] is valid.
             // ─────────────────────────────────────────────────────────────────
             if (weightS2 <= 3)
             {
@@ -588,8 +590,14 @@ namespace server.Services
                 // u₁ = 0 (already initialized)
                 Array.Copy(s2, 0, errorPattern, 12, 12);  // u₂ = s₂
 
+                // Validate: check if this error pattern produces a valid codeword
                 int[] corrected = XorVectors(w24, errorPattern);
-                return (corrected, errorPattern, true);
+                int[] testSyndrome = ComputeSyndromeS1(corrected);
+                if (CalculateWeight(testSyndrome) == 0)
+                {
+                    return (corrected, errorPattern, true);
+                }
+                // Otherwise, continue to next step
             }
 
             // ─────────────────────────────────────────────────────────────────
@@ -608,8 +616,13 @@ namespace server.Services
                     errorPattern[i] = 1;  // u₁ = eᵢ
                     Array.Copy(s2PlusBi, 0, errorPattern, 12, 12);  // u₂ = s₂ + bᵢ
 
+                    // Validate: check if this error pattern produces a valid codeword
                     int[] corrected = XorVectors(w24, errorPattern);
-                    return (corrected, errorPattern, true);
+                    int[] testSyndrome = ComputeSyndromeS1(corrected);
+                    if (CalculateWeight(testSyndrome) == 0)
+                    {
+                        return (corrected, errorPattern, true);
+                    }
                 }
             }
 
@@ -695,11 +708,11 @@ namespace server.Services
             // Convert text to bytes (UTF-8)
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(text);
 
-            // Convert bytes to bit array
+            // Convert bytes to bit array (LSB first to match IntToBitArray)
             var bits = new List<int>();
             foreach (byte b in bytes)
             {
-                for (int i = 7; i >= 0; i--)
+                for (int i = 0; i < 8; i++)
                 {
                     bits.Add((b >> i) & 1);
                 }
@@ -719,11 +732,11 @@ namespace server.Services
 
             for (int i = 0; i < bits.Count; i += 12)
             {
-                // Convert 12 bits to integer (MSB first)
+                // Convert 12 bits to integer (LSB first to match IntToBitArray)
                 int message = 0;
                 for (int j = 0; j < 12; j++)
                 {
-                    message = (message << 1) | bits[i + j];
+                    message |= bits[i + j] << j;
                 }
                 messages.Add(message);
 
@@ -805,8 +818,8 @@ namespace server.Services
                     uncorrectableBlocks++;
                 }
 
-                // Convert 12-bit message to bits (MSB first)
-                for (int i = 11; i >= 0; i--)
+                // Convert 12-bit message to bits (LSB first to match IntToBitArray)
+                for (int i = 0; i < 12; i++)
                 {
                     bits.Add((result.DecodedMessage >> i) & 1);
                 }
@@ -818,7 +831,7 @@ namespace server.Services
                 bits.RemoveRange(bits.Count - paddingBits, paddingBits);
             }
 
-            // Convert bits to bytes
+            // Convert bits to bytes (LSB first to match byte extraction)
             var bytes = new List<byte>();
             for (int i = 0; i < bits.Count; i += 8)
             {
@@ -827,7 +840,7 @@ namespace server.Services
                     byte b = 0;
                     for (int j = 0; j < 8; j++)
                     {
-                        b = (byte)((b << 1) | bits[i + j]);
+                        b |= (byte)(bits[i + j] << j);
                     }
                     bytes.Add(b);
                 }
@@ -904,11 +917,11 @@ namespace server.Services
             byte[] pixelData = new byte[imageData.Length - headerSize];
             Array.Copy(imageData, headerSize, pixelData, 0, pixelData.Length);
 
-            // Convert pixel data to bits
+            // Convert pixel data to bits (LSB first to match IntToBitArray)
             var bits = new List<int>();
             foreach (byte b in pixelData)
             {
-                for (int i = 7; i >= 0; i--)
+                for (int i = 0; i < 8; i++)
                 {
                     bits.Add((b >> i) & 1);
                 }
@@ -929,7 +942,7 @@ namespace server.Services
                 int message = 0;
                 for (int j = 0; j < 12; j++)
                 {
-                    message = (message << 1) | bits[i + j];
+                    message |= bits[i + j] << j;  // LSB first to match IntToBitArray
                 }
                 codewords.Add(Encode(message));
             }
@@ -993,8 +1006,8 @@ namespace server.Services
                     uncorrectableBlocks++;
                 }
 
-                // Convert 12-bit message to bits (MSB first)
-                for (int i = 11; i >= 0; i--)
+                // Convert 12-bit message to bits (LSB first to match IntToBitArray)
+                for (int i = 0; i < 12; i++)
                 {
                     bits.Add((result.DecodedMessage >> i) & 1);
                 }
@@ -1006,7 +1019,7 @@ namespace server.Services
                 bits.RemoveRange(bits.Count - paddingBits, paddingBits);
             }
 
-            // Convert bits to bytes
+            // Convert bits to bytes (LSB first to match byte extraction)
             var pixelBytes = new List<byte>();
             for (int i = 0; i < bits.Count && pixelBytes.Count < originalPixelSize; i += 8)
             {
@@ -1015,7 +1028,7 @@ namespace server.Services
                     byte b = 0;
                     for (int j = 0; j < 8; j++)
                     {
-                        b = (byte)((b << 1) | bits[i + j]);
+                        b |= (byte)(bits[i + j] << j);
                     }
                     pixelBytes.Add(b);
                 }

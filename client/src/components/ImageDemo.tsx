@@ -77,7 +77,7 @@ export default function ImageDemo() {
           <label>
             Error Probability:
             <input
-              type="range"
+              type="number"
               min={0}
               max={0.2}
               step={0.005}

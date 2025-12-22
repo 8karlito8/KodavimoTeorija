@@ -44,6 +44,9 @@ namespace server.Controllers
     {
         private readonly GolayService _golayService;
 
+        // Static Random for BSC simulation (initialized once per Tasks.md requirement)
+        private static readonly Random _random = new Random();
+
         public GolayController(GolayService golayService)
         {
             _golayService = golayService;
@@ -326,14 +329,13 @@ namespace server.Controllers
                 var rawBytes = System.Text.Encoding.UTF8.GetBytes(request.Text);
                 var corruptedBytes = new byte[rawBytes.Length];
                 int rawErrors = 0;
-                var random = new Random();
 
                 for (int i = 0; i < rawBytes.Length; i++)
                 {
                     byte corrupted = rawBytes[i];
                     for (int bit = 0; bit < 8; bit++)
                     {
-                        if (random.NextDouble() < request.ErrorProbability)
+                        if (_random.NextDouble() < request.ErrorProbability)
                         {
                             corrupted ^= (byte)(1 << bit);
                             rawErrors++;

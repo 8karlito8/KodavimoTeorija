@@ -87,7 +87,7 @@ export default function TextDemo() {
           <label>
             Error Probability:
             <input
-              type="range"
+              type="number"
               min={0}
               max={0.3}
               step={0.01}
