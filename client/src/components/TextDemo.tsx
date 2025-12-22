@@ -107,7 +107,7 @@ export default function TextDemo() {
         <>
           <section style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc' }}>
             <h3>Original Text</h3>
-            <div style={{ fontFamily: 'monospace', background: '#f5f5f5', padding: '10px' }}>
+            <div style={{ fontFamily: 'monospace', background: '#666', padding: '10px' }}>
               {result.original.text}
             </div>
             <div style={{ fontSize: '0.9em', color: '#666' }}>
@@ -118,7 +118,7 @@ export default function TextDemo() {
           <section style={{ marginBottom: '20px', padding: '10px', border: '1px solid #f88' }}>
             <h3>WITHOUT Error Correction</h3>
             <div style={{ fontSize: '0.9em', marginBottom: '5px' }}>{result.withoutCode.description}</div>
-            <div style={{ fontFamily: 'monospace', background: '#fff5f5', padding: '10px' }}>
+            <div style={{ fontFamily: 'monospace', background: '#666', padding: '10px' }}>
               {result.withoutCode.receivedText}
             </div>
             <div>
@@ -132,7 +132,7 @@ export default function TextDemo() {
           <section style={{ marginBottom: '20px', padding: '10px', border: '1px solid #8f8' }}>
             <h3>WITH Golay Error Correction</h3>
             <div style={{ fontSize: '0.9em', marginBottom: '5px' }}>{result.withCode.description}</div>
-            <div style={{ fontFamily: 'monospace', background: '#f5fff5', padding: '10px' }}>
+            <div style={{ fontFamily: 'monospace', background: '#666', padding: '10px' }}>
               {result.withCode.decodedText}
             </div>
             <div>
@@ -141,13 +141,21 @@ export default function TextDemo() {
               <div>Bit errors in channel: {result.withCode.totalBitErrors}</div>
               <div>Errors corrected: {result.withCode.errorsCorrected}</div>
               <div>Uncorrectable blocks: {result.withCode.uncorrectableBlocks}</div>
-              <span style={{ color: result.withCode.status.includes('✓') ? 'green' : 'red', fontWeight: 'bold' }}>
-                {result.withCode.status}
+              <span style={{
+                color: result.comparison.withCodeMatch ? 'green' : 'red',
+                fontWeight: 'bold'
+                }}>
+                  {result.comparison.withCodeMatch
+                    ? '✓ All errors corrected - text matches original!'
+                    : result.withCode.uncorrectableBlocks > 0
+                      ? `✗ ${result.withCode.uncorrectableBlocks} block(s) had >3 errors`
+                      : '✗ Some errors could not be corrected (decoded to wrong codeword)'
+                  }
               </span>
             </div>
           </section>
 
-          <section style={{ marginBottom: '20px', padding: '10px', border: '1px solid #88f', background: '#f5f5ff' }}>
+          <section style={{ marginBottom: '20px', padding: '10px', border: '1px solid #88f', background: '#666' }}>
             <h3>Comparison</h3>
             <div>Without code matches original: {result.comparison.withoutCodeMatch ? '✓ Yes' : '✗ No'}</div>
             <div>With code matches original: {result.comparison.withCodeMatch ? '✓ Yes' : '✗ No'}</div>
