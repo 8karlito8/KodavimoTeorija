@@ -79,16 +79,6 @@ function App() {
         {activeTab === 'image' && <ImageDemo />}
         {activeTab === 'matrices' && <MatrixDisplay />}
       </main>
-
-      {/* Footer */}
-      <footer style={{ marginTop: '40px', borderTop: '1px solid #ccc', paddingTop: '10px', fontSize: '0.9em', color: '#666' }}>
-        <p>
-          Backend API: <a href="http://localhost:5081" target="_blank" rel="noopener noreferrer">http://localhost:5081</a>
-        </p>
-        <p>
-          References: literatura12.pdf (Algorithm 3.6.1 and 3.7.1)
-        </p>
-      </footer>
     </div>
   );
 }

@@ -252,12 +252,10 @@ namespace server.Services
             int[] w24 = new int[24];
             Array.Copy(w23, w24, 23);
 
-            if (weight23 % 2 == 0)
-            {
+            if (weight23 % 2 == 0) {
                 w24[23] = 1;  // Append 1 to make odd weight
             }
-            else
-            {
+            else {
                 w24[23] = 0;  // Append 0 to keep odd weight
             }
 
@@ -276,7 +274,6 @@ namespace server.Services
             // ─────────────────────────────────────────────────────────────────
             // Algorithm 3.7.1, Step 3: Remove the last digit from c
             // ─────────────────────────────────────────────────────────────────
-            //
             // The corrected 24-bit codeword has the message in positions 0-11
             // (because G = [I | B] is in systematic form)
             // ─────────────────────────────────────────────────────────────────
@@ -657,11 +654,11 @@ namespace server.Services
             Array.Copy(w24, 0, w1, 0, 12);
             Array.Copy(w24, 12, w2, 0, 12);
 
-            // Compute w₁ × B (matrix-vector multiplication in GF(2))
-            int[] w1B = MultiplyVectorByMatrix(w1, B);
+            // Compute w₂ × B (matrix-vector multiplication in GF(2))
+            int[] w2B = MultiplyVectorByMatrix(w2, B);
 
-            // s₁ = w₁B + w₂ (XOR in GF(2))
-            return XorVectors(w1B, w2);
+            // s₁ = w₁ + w₂B (XOR in GF(2))
+            return XorVectors(w1, w2B);
         }
 
         /// <summary>
