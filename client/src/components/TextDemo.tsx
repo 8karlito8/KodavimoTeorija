@@ -77,7 +77,7 @@ export default function TextDemo() {
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              rows={3}
+              rows={20}
               cols={60}
               style={{ fontFamily: 'monospace' }}
             />
