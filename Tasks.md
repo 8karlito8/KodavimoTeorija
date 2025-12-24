@@ -98,3 +98,23 @@ Viso už programą galite gauti iki 100% balų. Pateikiamas vertinimas yra orien
 - [Sta02] [V.Stakėnas. Kodavimo teorija. Paskaitų kursas, 2002.](http://www.mif.vu.lt/matinf/asm/vs/pask/cdth/cdth.htm)
 - [Sta07] [V. Stakėnas. Kodai ir šifrai. Vilnius, 2007.](http://www.mif.vu.lt/lmd/kodai_sifrai.pdf)
 - [VO89] S.A.Vanstone, P.C. van Oorschot. An introduction to error correcting codes with applications. Kluwer Academic Publishers, Boston, 1989.
+
+
+
+# ============================================================================================================
+## galimyne pakoreguoti bitu seka po kanalo isvedimo (padaryti toki pati lauka kaip paprastos skaiciu ivesties)
+## error pattern veikia nepastoviai ir lokacijos buna neteisingos klaidu (jei padarytos 2 klaidos zymima kad istaisytos 3 klaidos)
+## C24 dekodavimo algoritmas privalo isvesti koda. Jei buvo daugiau klaidu nei 3 jis visvien turi isvesti koda taciau jis skirsis nuo pradinio kodo
+
+
+
+Ataskaitą (pageidautina - PDF formatu), kurioje turi būti nurodyta:
+kurios užduoties dalys realizuotos ir kurios ne,
+kam ir kokios panaudotos trečiųjų šalių funkcijų bibliotekos,
+(neprivaloma, bet pageidautina) kiek laiko užtruko užduoties atlikimas (valandomis) iš viso ir kiekvienam etapui atskirai: literatūros skaitymui ir kodo veikimo aiškinimuisi, projektavimui, programavimui, klaidų ieškojimui ir taisymui, ataskaitos ruošimui,
+kaip paleisti programą (kur yra paleidžiamasis failas, kaip jis vadinasi, kokius parametrus reikia nurodyti ir pan., t. y. visa informacija, kurią reikia žinoti, norint paleisti programą),
+kur ir kokie yra programos tekstų failai ir kas juose pateikiama (pavyzdžiui: "source\kodavimas\kanalas.java - realizuotas pranešimo siuntimas kanalu" ir t.t.),
+naudotojo sąsajos aprašymas su naudojimo pavyzdžiais (akcentuoti, kokius duomenis galima įvesti ir ką jie reiškia, pavyzdžiui, jei reikia, nurodyti, kaip įvedami ir išvedami baigtinio kūno elementai),
+padaryti programiniai sprendimai (pavyzdžiui, kas daroma, jei, tekstą suskaidžius vektoriais, negaunamas pilnas vektorius; kokiu būdu pradinis tekstas paverčiamas vektoriais, kuriuos paskui koduojame; kokiu būdu vektoriai siunčiami kanalu; ir t.t.),
+atliktų eksperimentų aprašymas - kokie eksperimentai atlikti, su kokiais parametrais, kokie gauti rezultatai. Pavyzdžiui, eksperimentais galima bandyti nustatyti, kaip klaidų taisymo efektyvumas ir vykdymo laikas priklauso nuo kodo parametrų ir (ar) kanalo klaidos tikimybės. Bent vieno eksperimento rezultatai turi būti pateikti grafiku.
+naudotos literatūros sąrašas.
