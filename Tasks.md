@@ -52,25 +52,7 @@ Pateikiame uždavinių lentelę. Stulpelyje "Pastabos" pateikiame numerius pasta
 
 
 
-|   |   |   |   |   |   |   |
-|---|---|---|---|---|---|---|
-|**Užd. nr.**|**Kūnas**|**Kodas**|**Dekodavimo algoritmas**|**Kodo parametrai**|**Literatūra**|**Pastabos**|
-|A1|q=2|Goppa kodas|§4.7.2, p. 214-217|m, L ir g|[[KTI78, p. 206–217, §4.7, ir p. 125, §2.6.6]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura20.pdf)|2, 5, 7|
-|A2|q=2|Preparata kodo plėtinys (extended Preparata code) P(r)|9.5.1 algoritmas, p. 239-240|r|[[HLL91, §9.3–9.5, p. 228–242]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura19.pdf), [klaidos1](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura19-klaidos1.gif), [klaidos2](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura19-klaidos2.gif)|2|
-|A3|q=2|(n,1,m) sąsūkos (konvoliucinis, convolutional) kodas|nukirstas (truncated) Viterbi dekodavimo algoritmas (8.4.1, p. 207–208, ir 8.4.12, p. 216–217, algoritmai)|n, m, generatoriai gi(x) ir dekodavimo parametras ("lango dydis") 'tau'|[[HLL91, §8.1–8.4, p. 185–217]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura18.pdf)||
-|A4|q=2|(n,1,m) sąsūkos (konvoliucinis, convolutional) kodas|išsemiantis (exhaustive) dekodavimo algoritmas (§8.3)|n, m, generatoriai gi(x) ir dekodavimo parametras ("lango dydis") 'tau'|[[HLL91, §8.1–8.3, p. 185–206]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura17.pdf)||
-|A5|q=2|Rydo-Miulerio (Reed-Muller) kodas **RM**(1,m)|dekodavimo algoritmas, naudojantis greitąją Hadamardo transformaciją (Fast Hadamard Transform) (3.9.4 algoritmas, p. 95)|m|[[HLL91, §3.8–3.9, p. 89–95]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura13.pdf)|7|
-|A6|q - pirminis|BCH kodų atskiras atvejis|p. 136-137|n ir d|[[Hil91, p. 130–137]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura11.pdf)|1, 7|
-|A7|q=2|Rydo-Miulerio (Reed, Muller) kodas **RM**(m,r)|loginės daugumos algoritmas (majority logic decoding)|m ir r|[Sta96, §5.8] arba [Sta02, §2.8] arba [Sta07, §9.7]|7, 9, 12|
-|A8|q=2r, r>=2|Rydo-Solomono (Reed-Solomon) kodas|6.3.2 algoritmas, p. 150|m ir delta|[[HLL91, §6.1–6.3, p. 139–153]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura25.pdf)|2, 6, 7|
-|A9|q=2|ciklinis kodas|klaidų gaudymo (error trapping) dekodavimo algoritmas (4.3.8 algoritmas, p. 111)|n ir generuojantis polinomas g(x)|[[HLL91, §4.2–4.3, p. 102–113]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura14.pdf)|6, 7, 8|
-|A10|q = pm, p - pirminis, m>=1|ciklinis kodas|klaidų gaudymo (error trapping) dekodavimo algoritmas (p. 348)|n ir generuojantis polinomas g(x)|[[Rom92, p. 345–349]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura16.pdf)|3, 6, 7, 8|
-|A11|q=2|tiesinis kodas C[n,k]|grandininis (step-by-step) dekodavimas (p. 79)|kodo ilgis n, dimensija k, generuojanti matrica G|[[VO89, §3.7, p. 78–81; ir p. 73]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura21.pdf)|4, 7, 11|
-|A12|q=2|Goppa kodas|8.3.8 teorema, p. 403|m, L ir G(x)|[[Rom92, §8.3, p. 386–406]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura26.pdf)|2, 5, 7|
 |A13|q=2|Golėjaus (Golay) kodas C23|3.7.1 algoritmas, p. 88||[[HLL91, §3.5–3.7, p. 82–89]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura12.pdf)|7|
-|A14|q=2|sąsūkos (konvoliucinis, convolutional) kodas iš [Ber84, Pvz. 15.62, p. 389]|dekodavimas su grįžtamuoju ryšiu (feedback decoder) (§15.63, Pav. 15.11)||[[Ber84, §15.61–15.63, p. 388–391]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura23.pdf)|10|
-|A15|q=2|sąsūkos (konvoliucinis, convolutional) kodas iš [Ber84, Pvz. 15.62, p. 389]|tiesioginis (direct) dekodavimas (§15.63, Pav. 15.11)||[[Ber84, §15.61–15.63, p. 388–391]](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura23.pdf)|10|
-
 _Pastabos._
 
 1. Kūne Fq, kur q – pirminis, skaičiavimai vyksta tiesiog moduliu q.
@@ -116,3 +98,23 @@ Viso už programą galite gauti iki 100% balų. Pateikiamas vertinimas yra orien
 - [Sta02] [V.Stakėnas. Kodavimo teorija. Paskaitų kursas, 2002.](http://www.mif.vu.lt/matinf/asm/vs/pask/cdth/cdth.htm)
 - [Sta07] [V. Stakėnas. Kodai ir šifrai. Vilnius, 2007.](http://www.mif.vu.lt/lmd/kodai_sifrai.pdf)
 - [VO89] S.A.Vanstone, P.C. van Oorschot. An introduction to error correcting codes with applications. Kluwer Academic Publishers, Boston, 1989.
+
+
+
+# ============================================================================================================
+## galimyne pakoreguoti bitu seka po kanalo isvedimo (padaryti toki pati lauka kaip paprastos skaiciu ivesties)
+## error pattern veikia nepastoviai ir lokacijos buna neteisingos klaidu (jei padarytos 2 klaidos zymima kad istaisytos 3 klaidos)
+## C24 dekodavimo algoritmas privalo isvesti koda. Jei buvo daugiau klaidu nei 3 jis visvien turi isvesti koda taciau jis skirsis nuo pradinio kodo
+
+
+
+Ataskaitą (pageidautina - PDF formatu), kurioje turi būti nurodyta:
+kurios užduoties dalys realizuotos ir kurios ne,
+kam ir kokios panaudotos trečiųjų šalių funkcijų bibliotekos,
+(neprivaloma, bet pageidautina) kiek laiko užtruko užduoties atlikimas (valandomis) iš viso ir kiekvienam etapui atskirai: literatūros skaitymui ir kodo veikimo aiškinimuisi, projektavimui, programavimui, klaidų ieškojimui ir taisymui, ataskaitos ruošimui,
+kaip paleisti programą (kur yra paleidžiamasis failas, kaip jis vadinasi, kokius parametrus reikia nurodyti ir pan., t. y. visa informacija, kurią reikia žinoti, norint paleisti programą),
+kur ir kokie yra programos tekstų failai ir kas juose pateikiama (pavyzdžiui: "source\kodavimas\kanalas.java - realizuotas pranešimo siuntimas kanalu" ir t.t.),
+naudotojo sąsajos aprašymas su naudojimo pavyzdžiais (akcentuoti, kokius duomenis galima įvesti ir ką jie reiškia, pavyzdžiui, jei reikia, nurodyti, kaip įvedami ir išvedami baigtinio kūno elementai),
+padaryti programiniai sprendimai (pavyzdžiui, kas daroma, jei, tekstą suskaidžius vektoriais, negaunamas pilnas vektorius; kokiu būdu pradinis tekstas paverčiamas vektoriais, kuriuos paskui koduojame; kokiu būdu vektoriai siunčiami kanalu; ir t.t.),
+atliktų eksperimentų aprašymas - kokie eksperimentai atlikti, su kokiais parametrais, kokie gauti rezultatai. Pavyzdžiui, eksperimentais galima bandyti nustatyti, kaip klaidų taisymo efektyvumas ir vykdymo laikas priklauso nuo kodo parametrų ir (ar) kanalo klaidos tikimybės. Bent vieno eksperimento rezultatai turi būti pateikti grafiku.
+naudotos literatūros sąrašas.
