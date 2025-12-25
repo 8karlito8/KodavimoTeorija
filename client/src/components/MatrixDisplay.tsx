@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-
-const API_BASE = 'http://localhost:5081/golay';
+import { API_BASE } from '../config';
 
 export default function MatrixDisplay() {
   const [matrixG, setMatrixG] = useState<number[][] | null>(null);

@@ -17,7 +17,6 @@ function App() {
         A perfect binary code that encodes 12 bits into 23 bits and can correct up to 3 bit errors.
       </p>
 
-      {/* Tab Navigation */}
       <nav style={{ marginBottom: '20px', borderBottom: '2px solid #ccc', paddingBottom: '10px' }}>
         <button
           onClick={() => setActiveTab('vector')}

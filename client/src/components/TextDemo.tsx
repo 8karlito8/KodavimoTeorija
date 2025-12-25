@@ -1,6 +1,5 @@
 import { useState } from 'react';
-
-const API_BASE = 'http://localhost:5081/golay';
+import { API_BASE } from '../config';
 
 interface FullDemoResult {
   original: {

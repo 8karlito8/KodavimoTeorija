@@ -59,9 +59,9 @@ namespace server.Controllers
                 return Ok(new
                 {
                     message = request.Message,
-                    messageBinary = Convert.ToString(request.Message, 2).PadLeft(12, '0'),
+                    messageBinary = _golayService.IntToReversedBinaryString(request.Message, 12),
                     codeword = codeword,
-                    codewordBinary = Convert.ToString(codeword, 2).PadLeft(23, '0')
+                    codewordBinary = _golayService.IntToReversedBinaryString(codeword, 23)
                 });
             }
             catch (ArgumentException ex)
@@ -79,9 +79,9 @@ namespace server.Controllers
                 return Ok(new
                 {
                     codeword = request.Codeword,
-                    codewordBinary = Convert.ToString(request.Codeword, 2).PadLeft(23, '0'),
+                    codewordBinary = _golayService.IntToReversedBinaryString(request.Codeword, 23),
                     message = message,
-                    messageBinary = Convert.ToString(message, 2).PadLeft(12, '0')
+                    messageBinary = _golayService.IntToReversedBinaryString(message, 12)
                 });
             }
             catch (ArgumentException ex)
@@ -115,10 +115,10 @@ namespace server.Controllers
                 return Ok(new
                 {
                     originalCodeword = request.Codeword,
-                    originalCodewordBinary = Convert.ToString(request.Codeword, 2).PadLeft(23, '0'),
+                    originalCodewordBinary = _golayService.IntToReversedBinaryString(request.Codeword, 23),
                     errorProbability = request.ErrorProbability,
                     corruptedCodeword = corruptedCodeword,
-                    corruptedCodewordBinary = Convert.ToString(corruptedCodeword, 2).PadLeft(23, '0'),
+                    corruptedCodewordBinary = _golayService.IntToReversedBinaryString(corruptedCodeword, 23),
                     errorCount = errorCount,
                     errorPositions = errorPositions,
                     canCorrect = errorCount <= 3,

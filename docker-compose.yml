@@ -1,0 +1,44 @@
+services:
+  # Backend - .NET API
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: golay-backend
+    ports:
+      - "5081:5081"
+    environment:
+      - ASPNETCORE_URLS=http://+:5081
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - golay-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5081/golay/matrix-p"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Frontend - React + Nginx
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: golay-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - golay-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  golay-network:
+    driver: bridge

@@ -146,13 +146,15 @@ namespace server.Services
 
             var (correctedCodeword24, errorPattern, success) = DecodeC24_IMLD(w24);
 
-            // Find error positions
+            // Find error positions in the C23 codeword (bits 0-22)
+            // Note: errorPattern[23] is the C24 parity bit and should NOT be reported
+            // Report array indices directly - frontend will transform them via bitIndex = bitCount-1-position
             var errorPositions = new List<int>();
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 23; i++)  // Only C23 positions (0-22)
             {
                 if (errorPattern[i] == 1)
                 {
-                    errorPositions.Add(i);
+                    errorPositions.Add(i);  // Frontend handles position mapping
                 }
             }
 
@@ -177,24 +179,28 @@ namespace server.Services
             int[] s1 = ComputeSyndromeS1(w24);
             int[] s2 = ComputeSyndromeS2(s1);
 
+            // Convert originalCodeword to bit array for consistent reversal
+            int[] originalCodewordArray = IntToBitArray(codeword, 23);
+            int[] decodedMessageArray = IntToBitArray(message, 12);
+
             return new DecodeResult
             {
                 OriginalCodeword = codeword,
-                OriginalCodewordBinary = Convert.ToString(codeword, 2).PadLeft(23, '0'),
+                OriginalCodewordBinary = string.Join("", originalCodewordArray.Reverse()),
                 ExtendedWord = BitArrayToInt(w24),
-                ExtendedWordBinary = string.Join("", w24),
+                ExtendedWordBinary = string.Join("", w24.Reverse()),
                 AppendedBit = appendedBit,
-                SyndromeS1 = string.Join("", s1),
+                SyndromeS1 = string.Join("", s1.Reverse()),
                 SyndromeS1Weight = CalculateWeight(s1),
-                SyndromeS2 = string.Join("", s2),
+                SyndromeS2 = string.Join("", s2.Reverse()),
                 SyndromeS2Weight = CalculateWeight(s2),
-                ErrorPattern = string.Join("", errorPattern),
+                ErrorPattern = string.Join("", errorPattern.Take(23).Reverse()),
                 ErrorCount = errorPositions.Count,
                 ErrorPositions = errorPositions.ToArray(),
                 CorrectedCodeword = BitArrayToInt(correctedCodeword24.Take(23).ToArray()),
-                CorrectedCodewordBinary = string.Join("", correctedCodeword24.Take(23)),
+                CorrectedCodewordBinary = string.Join("", correctedCodeword24.Take(23).Reverse()),
                 DecodedMessage = message,
-                DecodedMessageBinary = Convert.ToString(message, 2).PadLeft(12, '0'),
+                DecodedMessageBinary = string.Join("", decodedMessageArray.Reverse()),
                 Success = success,
                 Status = success
                     ? $"Successfully corrected {errorPositions.Count} error(s)"
@@ -629,6 +635,15 @@ namespace server.Services
                 bits[i] = (value >> i) & 1;
             }
             return bits;
+        }
+
+        /// <summary>
+        /// Convert integer to reversed binary string (for consistent display format)
+        /// </summary>
+        public string IntToReversedBinaryString(int value, int bitCount)
+        {
+            int[] bits = IntToBitArray(value, bitCount);
+            return string.Join("", bits.Reverse());
         }
 
         private int BitArrayToInt(int[] bits)

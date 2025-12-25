@@ -1,0 +1,147 @@
+.container {
+  margin: 10px 0;
+}
+
+.label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 14px;
+}
+
+.bitContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.bitGroup {
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  background: #333;
+  border-radius: 4px;
+  border: 1px solid #555;
+}
+
+.bit {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #777;
+  background: #555;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  user-select: none;
+  position: relative;
+  color: white;
+}
+
+.bit.active {
+  background: #2d5;
+  color: white;
+  border-color: #1b3;
+}
+
+.bit.highlighted {
+  background: #ff4444 !important;
+  color: white;
+  border: 2px solid #d32;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.bit.highlighted.active {
+  background: #ff4444 !important;
+  color: white;
+  border: 2px solid #d32;
+}
+
+/* Error pattern mode: 1s are RED errors, not green active */
+.bit.errorBit {
+  background: #ff4444 !important;
+  color: white !important;
+  border: 2px solid #d32 !important;
+}
+
+/* Override active (green) for error patterns */
+.bit.active.errorBit {
+  background: #ff4444 !important;
+  color: white !important;
+  border: 2px solid #d32 !important;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(255, 0, 0, 0);
+  }
+}
+
+.position {
+  position: absolute;
+  bottom: -18px;
+  font-size: 9px;
+  color: #666;
+  font-weight: normal;
+}
+
+.hint {
+  font-size: 0.85em;
+  color: #666;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.errorHint {
+  color: #d32;
+  font-weight: 500;
+}
+
+/* Mobile responsive */
+@media (max-width: 700px) {
+  .bit {
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+  }
+
+  .bitGroup {
+    gap: 1px;
+    padding: 3px;
+  }
+
+  .position {
+    font-size: 8px;
+    bottom: -16px;
+  }
+}
+
+@media (max-width: 500px) {
+  .bit {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+
+  .bitContainer {
+    gap: 4px;
+  }
+
+  .bitGroup {
+    gap: 1px;
+    padding: 2px;
+  }
+
+  .position {
+    font-size: 7px;
+    bottom: -14px;
+  }
+}
