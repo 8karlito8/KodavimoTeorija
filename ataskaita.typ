@@ -31,17 +31,17 @@ jj
 *Dekodavimo algoritmas:* Pilnai realizuotas algoritmas 3.7.1 (literatura12.pdf, p. 88) su algoritmu 3.6.1 (p. 85) dekodavimui išplėstame kode C24.
 
 *Visi 6 reikalaujami moduliai:*
-1. ✓ Baigtinis kūnas F₂ (GF(2) aritmetika)
-2. ✓ Matricos operacijos virš F₂
-3. ✓ Kodavimas (c = m × G)
-4. ✓ Kanalas (Binary Symmetric Channel)
-5. ✓ Dekodavimas (sindrominiu metodu)
-6. ✓ Teksto/vaizdo apdorojimas
+1. Baigtinis kūnas F₂ (GF(2) aritmetika)
+2. Matricos operacijos virš F₂
+3. Kodavimas (c = m × G)
+4. Kanalas (Binary Symmetric Channel)
+5. Dekodavimas (sindrominiu metodu)
+6. Teksto/vaizdo apdorojimas
 
 *Trys scenarijai:*
-1. ✓ Vieno vektoriaus kodavimas/dekodavimas
-2. ✓ Teksto perdavimas su palyginimo demonstracija
-3. ✓ 24-bitų BMP vaizdo perdavimas
+1. Vieno vektoriaus kodavimas/dekodavimas
+2. Teksto perdavimas su palyginimo demonstracija
+3. 24-bitų BMP vaizdo perdavimas
 
 = Panaudotos trečiųjų šalių bibliotekos
 
@@ -65,47 +65,148 @@ jj
 
 == Reikalavimai
 
-Vieninteliai reikalavimai: *Docker* ir *Docker Compose*
+*Būtina programinė įranga:*
+- *Docker Desktop for Windows* - https://www.docker.com/products/docker-desktop/
+- *Docker Compose* - įeina į Docker Desktop pakete
 
-Instaliavimo instrukcijos pateiktos `DOCKER_README.md` faile.
+*Svarbu:* Docker Desktop aplikacija turi būti paleista prieš vykdant bet kokias komandas.
 
-== Paleidimas
+Detalesnės instaliavimo instrukcijos pateiktos `DOCKER_README.md` faile.
 
-*Windows PowerShell arba CMD:*
+== Pirminis paleidimas
+
+*1. Atidaryti terminalą (PowerShell arba Command Prompt)*
+
+Paspauskite `Windows + R`, įveskite `powershell` arba `cmd`, spauskite Enter.
+
+*2. Naviguoti į projekto direktoriją*
+
 ```bash
-cd KodavimoTeorija
+cd kelias\į\KodavimoTeorija
+```
+
+Pavyzdžiui, jei projektas yra darbastalyje:
+```bash
+cd C:\Users\Profesorius\Desktop\KodavimoTeorija
+```
+
+*3. Paleisti Docker Compose*
+
+```bash
 docker-compose up --build
 ```
 
-*Linux/Mac:*
-```bash
-cd KodavimoTeorija
-./start.sh
-```
+Šios komandos veiksmai:
+- Sukuria Docker image'us iš projektą `Dockerfile` failų (`--build` parametras)
+- Sukompiliuoja backend (.NET) ir frontend (React) kodą
+- Paleidžia du konteinerius: backend (porta 5081) ir frontend (porta 3000)
+- Automatiškai sujungia konteinerius tarpusavyje
+- Rodo realiu laiku log'us (išvestį) terminalo lange
 
-arba:
-```bash
-docker-compose up --build
-```
+*Pastaba:* Pirmasis paleidimas gali užtrukti *2-5 minutes*, nes Docker atsisiunčia bazines sistemas (base images) ir kompiliuoja visą kodą. Vėlesni paleidimai bus žymiai greitesni.
 
 == Prieiga prie programos
 
-Paleidus konteinerius:
-- *Vartotojo sąsaja:* http://localhost:3000
-- *Backend API:* http://localhost:5081
+Kai terminale pasirodys pranešimas "Compiled successfully!" arba panašus, programa yra pasiekiama:
+
+- *Vartotojo sąsaja (React app):* http://localhost:3000
+- *Backend API (.NET):* http://localhost:5081
+
+*Jei programa nepasirodo naršyklėje:*
+- Palaukite 30-60 sekundžių po paleidimo
+- Įsitikinkite, kad terminale nėra klaidų pranešimų
+- Atnaujinkite naršyklės puslapį (F5)
+- Patikrinkite, ar Docker Desktop aplikacija veikia
+
+== Pakartotinis paleidimas
+
+*Jei kodas nebuvo keičiamas* (greičiau):
+```bash
+docker-compose up
+```
+
+*Jei kodas buvo pakeistas* (perkompiliuoja):
+```bash
+docker-compose up --build
+```
 
 == Sustabdymas
 
+*Būdas 1: Terminalo lange (rekomenduojamas)*
+
+Paspauskite `Ctrl + C` terminale, kuriame veikia `docker-compose up`.
+
+Tai sustabdo konteinerius, bet nepašalina jų. Galėsite juos greitai vėl paleisti.
+
+*Būdas 2: Naujame terminalo lange*
+
 ```bash
+cd kelias\į\KodavimoTeorija
 docker-compose down
 ```
 
-== Valymas (pašalinti visus konteinerius)
+Šios komandos veiksmai:
+- Sustabdo visus veikiančius konteinerius
+- Pašalina konteinerius (bet ne image'us)
+- Atlaisvina portus 3000 ir 5081
 
+== Valymas (atlaisvinti vietą diske)
+
+*Pašalinti konteinerius ir volumes:*
 ```bash
 docker-compose down -v
-docker rmi golay-backend golay-frontend
 ```
+
+*Pašalinti sukurtus image'us (atlaisvina ~1 GB):*
+```bash
+docker rmi kodavimoteorija-backend kodavimoteorija-frontend
+```
+
+*Pastaba:* Image vardai gali šiek tiek skirtis. Norėdami pamatyti visus sukurtus image'us:
+```bash
+docker images
+```
+
+== Problemų sprendimas
+
+*Problema: "docker-compose: command not found" arba "docker: not recognized"*
+
+Sprendimas: Įsitikinkite, kad Docker Desktop yra įdiegtas ir paleistas Windows sistemoje.
+
+*Problema: "Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:3000"*
+
+Sprendimas: Portas 3000 arba 5081 jau užimtas kitos programos.
+- Sustabdykite programą, naudojančią šį portą
+- Arba pakeiskite portą `docker-compose.yml` faile
+
+*Problema: "Cannot connect to the Docker daemon"*
+
+Sprendimas: Paleiskite Docker Desktop aplikaciją Windows sistemoje ir palaukite, kol ji pilnai užsikraus.
+
+*Problema: Naršyklėje nerodo puslapio po paleidimo*
+
+Sprendimas:
+- Palaukite bent 30-60 sekundžių po `docker-compose up --build` komandos
+- Patikrinkite terminalo log'us ar nėra klaidų pranešimų
+- Bandykite atnaujinti puslapį naršyklėje (F5 arba Ctrl+F5)
+- Įsitikinkite, kad terminale matote pranešimą "Compiled successfully!"
+
+*Problema: "no such file or directory: docker-compose.yml"*
+
+Sprendimas: Esate neteisingoje direktorijoje. Įsitikinkite, kad esate projekto šakniniame kataloge:
+```bash
+dir
+```
+Turėtumėte matyti failus: `docker-compose.yml`, direktorijas `server` ir `client`.
+
+*Linux/Mac vartotojams (alternatyva):*
+
+```bash
+cd KodavimoTeorija
+docker-compose up --build
+```
+
+Visos aukščiau nurodytos Windows instrukcijos veikia ir Linux/Mac sistemose, tik naudokite `/` vietoj `\` kelių pavadinimuose.
 
 = Programos tekstų failai
 
