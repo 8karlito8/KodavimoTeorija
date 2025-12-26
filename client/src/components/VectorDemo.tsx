@@ -260,9 +260,6 @@ export default function VectorDemo() {
               <div style={{ fontFamily: 'monospace' }}>
                 Decimal: {channelResult.corruptedCodeword}
               </div>
-              <div style={{ fontFamily: 'monospace', marginTop: '5px' }}>
-                Errors: {channelResult.errorCount} at positions [{channelResult.errorPositions.join(', ')}]
-              </div>
               <div style={{ color: channelResult.canCorrect ? 'green' : 'red', marginTop: '5px' }}>
                 {channelResult.status}
               </div>
@@ -321,9 +318,6 @@ export default function VectorDemo() {
                 highlightPositions={decodeResult.errorPositions}
                 displayMode="errorPattern"
               />
-              <div style={{ fontFamily: 'monospace', marginTop: '5px' }}>
-                Errors: {decodeResult.errorCount} at positions [{decodeResult.errorPositions.join(', ')}]
-              </div>
             </div>
 
             <div style={{ fontFamily: 'monospace', fontWeight: 'bold', marginTop: '15px' }}>

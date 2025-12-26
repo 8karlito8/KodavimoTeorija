@@ -159,7 +159,7 @@ docker-compose down -v
 
 *Pašalinti sukurtus image'us (atlaisvina ~1 GB):*
 ```bash
-docker rmi kodavimoteorija-backend kodavimoteorija-frontend
+docker rmi -f kodavimoteorija-backend kodavimoteorija-frontend
 ```
 
 *Pastaba:* Image vardai gali šiek tiek skirtis. Norėdami pamatyti visus sukurtus image'us:
