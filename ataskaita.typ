@@ -1,10 +1,10 @@
 #set page(paper: "a4", margin: 2.5cm)
-#set text(font: "New Computer Modern", size: 11pt, lang: "lt")
+#set text(font: "New Computer Modern", size: 9pt, lang: "lt")
 #set par(justify: true, leading: 0.65em)
 #set heading(numbering: "1.")
 
 #align(center)[
-  #text(size: 16pt, weight: "bold")[
+  #text(size: 13pt, weight: "bold")[
     Golay (23,12,7) klaidų taisymo kodo realizacija
   ]
 
@@ -21,7 +21,7 @@
 = Realizuotos užduoties dalys
 
 Realizuotos *visos* užduoties dalys:
-
+jj
 *Kodas:* Golay (23,12,7) tobulas dvejetainis linijinis blokinis kodas
 - Parametrai: n=23, k=12, d=7
 - Taiso iki 3 bitų klaidas
@@ -46,7 +46,7 @@ Realizuotos *visos* užduoties dalys:
 = Panaudotos trečiųjų šalių bibliotekos
 
 *Backend (serveris):*
-- *.NET 10.0 SDK* - C# programavimo platforma
+- *.NET 10.0 SDK* - C\# programavimo platforma
 - *ASP.NET Core* - REST API kūrimui
 - *System.Text.Json* - JSON serializavimui (įtraukta į .NET)
 - *System.Drawing.Common* - BMP vaizdų apdorojimui
@@ -65,9 +65,9 @@ Realizuotos *visos* užduoties dalys:
 
 == Reikalavimai
 
-Vienintelis reikalavimas: *Docker* ir *Docker Compose*
+Vieninteliai reikalavimai: *Docker* ir *Docker Compose*
 
-Instaliacijos instrukcijos pateiktos `DOCKER_README.md` faile.
+Instaliavimo instrukcijos pateiktos `DOCKER_README.md` faile.
 
 == Paleidimas
 
@@ -300,7 +300,7 @@ Viršuje pateiktos nuorodos į backend API ir dokumentaciją.
 *Naudojimas:*
 
 1. Vartotojas pasirenka BMP failą (24-bitų spalvotas)
-   - Rekomenduojamas dydis: <500×500 pikselių greičiui
+   - Rekomenduojamas dydis: \<500×500 pikselių greičiui
 
 2. Nustato klaidų tikimybę (slider 0.00-0.20)
    - Rekomenduojama: 0.005-0.02 vizualiam efektui
@@ -503,7 +503,8 @@ public string IntToReversedBinaryString(int value, int bitCount)
 - Matuojamas sugadintų simbolių skaičius
 
 *Testuotas tekstas:*
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut lab"
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut lab
+------------------------------------------------------------------------------------------------"
 
 *Rezultatai (p=0.05):*
 - Be kodo: vidutiniškai 60-80 sugadintų bitų → 15-25 sugadinti simboliai
@@ -532,11 +533,5 @@ public string IntToReversedBinaryString(int value, int bitCount)
 *Išvada:* Golay kodas efektyviai apsaugo vaizdus nuo nedidelių klaidų tikimybių (p < 0.02).
 
 = Literatūra
-
-_(Vartotojas nurodė, kad šią sekciją užpildys pats)_
-
-#v(1cm)
-
-#align(center)[
-  --- Ataskaitos pabaiga ---
-]
+- Paskaitų konspektas (KTKT.pdf),
+- literatūra12.pdf

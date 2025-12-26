@@ -157,19 +157,41 @@ namespace server.Data
             [1,1,1,1,1,1,1,1,1,1,1,0],  // Row 11: weight 11
         ];
 
+        /// <summary>
+        /// Grąžina parities matricą P̂ (12×11) C23 kodui.
+        /// Naudojama generatoriaus matricos konstrukcijoje: G = [I₁₂ | P̂].
+        /// Parametrai: nėra
+        /// Grąžina:
+        ///   12×11 parities matricą GF(2) lauke
+        ///   Kiekviena eilutė yra cikliniu poslinkiu gautasiš pirmos eilutės
+        /// </summary>
         public int[][] GetParityMatrix()
         {
             return ParityMatrix;
         }
 
+        /// <summary>
+        /// Grąžina identiteto matricą I₁₂ (12×12).
+        /// Naudojama sisteminės formos generatoriaus matricoje.
+        /// Parametrai: nėra
+        /// Grąžina:
+        ///   12×12 identiteto matricą (įstrižainėje vienetai, kitur nuliai)
+        /// </summary>
         public int[][] GetIdentityMatrix()
         {
             return IdentityMatrix;
         }
 
         /// <summary>
-        /// Returns the B matrix (12×12) used for extended Golay code C24.
-        /// This matrix is essential for syndrome-based decoding.
+        /// Grąžina B matricą (12×12) išplėstam Golay C24 kodui.
+        /// KRITIŠKAI SVARBU sindromų dekodavimui (algoritmas 3.6.1).
+        /// Savybės:
+        ///   - B² = I (B yra pati sau atvirkštinė GF(2) lauke)
+        ///   - B = B^T (simetrinė)
+        ///   - Kiekvienos eilutės svoris nelyginis (7 arba 11)
+        /// Parametrai: nėra
+        /// Grąžina:
+        ///   12×12 B matricą
         /// </summary>
         public int[][] GetBMatrix()
         {
